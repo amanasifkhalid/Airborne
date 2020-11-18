@@ -1,4 +1,3 @@
-# Plague-Gamez
+# Outbreaking_News
 
-
-Action, Adventure, Simulation, Strategy, Sports, Casual, RPG, Violent, Multiplayer, Fantasy, Open World, Sci-fi, Horror, Shooter, Zombies
+See how viewership of the Big Three (CNN, Fox, and MSNBC) stacks up during the COVID-19 pandemic.
