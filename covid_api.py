@@ -14,6 +14,15 @@ def get_US_confirmed_cases(from_date, to_date):
         print("An exception occurred. Here's the message:")
         print(e)
 
+def get_US_cases_by_month(month):
+    pass
+
+def add_to_COVID_database(cur, conn):
+    pass
+
+def build_COVID_database():
+    pass
+
 def main():
     print(get_US_confirmed_cases("2020-11-01", "2020-11-02"))
 
