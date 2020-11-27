@@ -18,12 +18,11 @@ MONTHS = (
 
 def get_locations():
     with open("locations.txt", "r") as locations_file:
-        states_list = []
-        cities_list = []
+        locations_dict = dict()
         for line in locations_file:
-            states_list.append(line.split(",")[0])
-            cities_list.append(line.split(",")[1])
-        return states_list, cities_list
+            location = line.split(",")
+            locations_dict[location[0]] = location[1]
+        return locations_dict
 
 def selection_GUI(state_list):
     root = tk.Tk()
@@ -56,8 +55,8 @@ def selection_GUI(state_list):
     return state.get(), month.get()
 
 def main():
-    states, cities = get_locations()
-    selected_state, selected_month = selection_GUI(states)
+    locations = get_locations()
+    selected_state, selected_month = selection_GUI(list(locations.keys()))
 
 if __name__ == "__main__":
     main()
