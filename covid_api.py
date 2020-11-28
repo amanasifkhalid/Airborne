@@ -37,7 +37,7 @@ def API_driver(state, location_id, month, cur, conn):
         except:
             break
     
-    return (True,) 
+    return (True,)
 
 # def main():
 #     COVID_api_driver("al", "04", None, None)

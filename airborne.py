@@ -7,6 +7,7 @@ from tkinter import font
 from tkinter import ttk
 
 import covid_api
+import air_quality_api
 
 MONTHS = (
     "April",
@@ -74,7 +75,7 @@ def display_error_message(status_code, COVID_API=False):
         error_API = "OpenAQ"
     
     error_label = tk.Label(root, text=f"An error occurred while collecting the {error_API} data. Here's the server's response:", font=normal_font).pack(padx=15)
-    response_abel = tk.Label(root, text=status_code, font=error_font).pack()
+    response_label = tk.Label(root, text=status_code, font=error_font).pack()
 
     exit_button = tk.Button(root, text="Exit", font=normal_font, command=root.destroy).pack(pady=20)
     root.mainloop()
@@ -125,7 +126,7 @@ def set_up_tables(cur, conn):
                    FOREIGN KEY (location_id) REFERENCES Locations (id),
                    UNIQUE(date, location_id))""")
     cur.execute("""CREATE TABLE IF NOT EXISTS Air_Quality
-                   (date INTEGER PRIMARY KEY, month_id INTEGER, location_id INTEGER, quality REAL,
+                   (date INTEGER PRIMARY KEY, month_id INTEGER, location_id INTEGER, average REAL,
                    FOREIGN KEY (month_id) REFERENCES Months (id),
                    FOREIGN KEY (location_id) REFERENCES Locations (id),
                    UNIQUE(date, location_id))""")
@@ -152,10 +153,10 @@ def main():
         display_error_message(COVID_status[1], COVID_API=True)
         return
     
-    # openAQ_status = air_quality_api.API_driver(location[2], month, cur, conn)
-    # if not openAQ_status[0]:
-    #     display_error_message(openAQ_status[1])
-    #     return
+    openAQ_status = air_quality_api.API_driver(location[2].strip(), location[0], month, cur, conn)
+    if not openAQ_status[0]:
+        display_error_message(openAQ_status[1])
+        return
 
     display_load_finished_message()
 
