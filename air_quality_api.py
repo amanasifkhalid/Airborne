@@ -34,17 +34,11 @@ def API_driver(city, location_id, month, cur, conn):
     if not daily_cases_request:
         return (False, daily_cases_request.status_code)
     air_quality_data = daily_cases_request.json()
-    if len(air_quality_data["results"]) == 0:
-        return (False, "No Data Available")
+    if not air_quality_data["results"]:
+        return (False, "No data available")
     try:
         add_to_AQ_database(air_quality_data, month, location_id, cur, conn)
     except:
-        return (False, "Data currently exists in database")
-    return (True,) 
+        return (False, "Data already exists in database")
 
-
-# def main():
-#     print(API_driver("BOISE", 12, "07"))
-
-# if __name__ == "__main__":
-#     main()
+    return (True,)

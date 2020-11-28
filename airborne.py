@@ -1,4 +1,4 @@
-import matplotlib
+import matplotlib.pyplot as plt
 import requests
 import sqlite3
 import sys

@@ -35,12 +35,6 @@ def API_driver(state, location_id, month, cur, conn):
         try:
             add_to_COVID_database(daily_cases_request.json(), date, location_id, cur, conn)
         except:
-            break
-    
+            return (False, "Data already exists in database")
+
     return (True,)
-
-# def main():
-#     COVID_api_driver("al", "04", None, None)
-
-# if __name__ == "__main__":
-#     main()
