@@ -1,9 +1,4 @@
 import requests
-import json
-import os
-import matplotlib
-import matplotlib.pyplot as plt
-
 
 def get_monthly_cases(city, month):
     openaq_url = f"https://api.openaq.org/beta/averages?country=US&city={city}&date_from=2020-{month}-01&date_to=2020-{month}-25"
