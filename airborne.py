@@ -28,7 +28,12 @@ def get_locations():
             locations_dict[location[0]] = location[1]
         return locations_dict
 
-def selection_GUI(state_list):
+def clear_API_data_tables(cur, conn):
+    cur.execute("DROP TABLE IF EXISTS COVID_Cases")
+    cur.execute("DROP TABLE IF EXISTS Air_Quality")
+    conn.commit()
+
+def selection_GUI(state_list, cur, conn):
     root = tk.Tk()
     root.eval("tk::PlaceWindow . center")
     root.protocol("WM_DELETE_WINDOW", sys.exit)
@@ -53,11 +58,16 @@ def selection_GUI(state_list):
     month.set(MONTHS[0])
     month_menu = ttk.Combobox(root, width=15, textvariable=month, values=MONTHS, font=small_font).pack()
 
-    continue_button = tk.Button(root, text="Continue", font=normal_font, command=root.destroy).pack(pady=20)
+    clear_database = tk.IntVar()
+    database_check = tk.Checkbutton(root, text="Clear database", variable=clear_database, font=small_font).pack(pady=20)
+    continue_button = tk.Button(root, text="Continue", font=normal_font, command=root.destroy).pack()
     warning_msg = "Note: Downloading the data will take time.\nDon't be alarmed if you don't see anything for a few seconds!"
     warning_label = tk.Label(root, text=warning_msg, font=small_font).pack(padx=15, pady=10)
 
     root.mainloop()
+    if clear_database.get():
+        clear_API_data_tables(cur, conn)
+
     return state.get(), month.get()
 
 def display_error_message(status_code, COVID_API=False):
@@ -136,10 +146,11 @@ def main():
     # Connect to database
     conn = sqlite3.connect("airborne_database.db")
     cur = conn.cursor()
-    set_up_tables(cur, conn)
-    locations = get_locations()
 
-    state, month = selection_GUI(list(locations.keys()))
+    locations = get_locations()
+    state, month = selection_GUI(list(locations.keys()), cur, conn)
+    set_up_tables(cur, conn)
+
     cur.execute("SELECT * FROM Locations WHERE state = ?", (state,))
     location = cur.fetchone()
     cur.execute("SELECT id FROM Months WHERE month = ?", (month,))
