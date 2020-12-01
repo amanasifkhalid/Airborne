@@ -28,8 +28,15 @@ def API_driver(location, month, cur, conn):
         
         daily_cases_request = get_daily_cases(location[1].lower(), date)
         if daily_cases_request is None:
+            if month == "03":
+                continue
+
             return (False, "No status code received")
+        
         if not daily_cases_request:
+            if month == "03":
+                continue
+            
             return (False, daily_cases_request.status_code)
         
         try:

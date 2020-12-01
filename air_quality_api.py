@@ -20,7 +20,7 @@ def add_to_AQ_database(data, location_id, month, cur, conn):
     conn.commit()
 
 def API_driver(location, month, cur, conn):
-    daily_cases_request = get_monthly_cases(location[2], location[3], month)
+    daily_cases_request = get_monthly_cases(location[2], location[3].strip(), month)
     if daily_cases_request is None:
         return (False, "No status code received")
     

@@ -42,17 +42,17 @@ def set_up_months_table(cur):
 
 def set_up_COVID_table(cur):
     cur.execute("""CREATE TABLE IF NOT EXISTS COVID_Cases
-                   (date INTEGER PRIMARY KEY, month_id INTEGER, location_id INTEGER, new_cases INTEGER,
+                   (date INTEGER KEY, month_id INTEGER, location_id INTEGER, new_cases INTEGER,
                    FOREIGN KEY (month_id) REFERENCES Months (id),
                    FOREIGN KEY (location_id) REFERENCES Locations (id),
-                   UNIQUE(date, location_id))""")
+                   UNIQUE(location_id, date))""")
 
 def set_up_openAQ_table(cur):
     cur.execute("""CREATE TABLE IF NOT EXISTS Air_Quality
-                   (date INTEGER PRIMARY KEY, month_id INTEGER, location_id INTEGER, average REAL,
+                   (date INTEGER KEY, month_id INTEGER, location_id INTEGER, average REAL,
                    FOREIGN KEY (month_id) REFERENCES Months (id),
                    FOREIGN KEY (location_id) REFERENCES Locations (id),
-                   UNIQUE(date, location_id))""")
+                   UNIQUE(location_id, date))""")
 
 def set_up_tables():
     conn = sqlite3.connect("airborne_database.db")
@@ -66,15 +66,15 @@ def set_up_tables():
     conn.commit()
     return conn, cur
 
-def get_API_data_for_location(cur, location_id, month=None):
-    if month:
-        cur.execute("""SELECT COVID_Cases.date, new_cases, average FROM COVID_Cases
+def get_API_data_for_location(cur, location_id, month_id):
+    if month_id:
+        cur.execute("""SELECT COVID_Cases.date, COVID_Cases.month_id, new_cases, average FROM COVID_Cases
                        JOIN Air_Quality ON COVID_Cases.date = Air_Quality.date
                        AND COVID_Cases.location_id = Air_Quality.location_id
                        WHERE COVID_Cases.location_id = ? AND COVID_Cases.month_id = ?""",
-                       (location_id, month,))
+                       (location_id, month_id,))
     else:
-        cur.execute("""SELECT COVID_Cases.date, new_cases, average FROM COVID_Cases
+        cur.execute("""SELECT COVID_Cases.date, COVID_Cases.month_id, new_cases, average FROM COVID_Cases
                        JOIN Air_Quality ON COVID_Cases.date = Air_Quality.date
                        AND COVID_Cases.location_id = Air_Quality.location_id
                        WHERE COVID_Cases.location_id = ?""",
