@@ -17,7 +17,7 @@ def air_quality_vs_cases(cases, air_qualities, state, city, from_month, to_month
     title = title + " 2020"
     plt.title(title)
     plt.xlabel("New Daily COVID-19 Cases")
-    plt.ylabel("Daily Air Quality (PM2.5)")
+    plt.ylabel("Daily Particulate Matter in Air (PM2.5)")
 
     corr_coef = get_correlation_coefficient(cases, air_qualities)
     coef_of_det = corr_coef ** 2
