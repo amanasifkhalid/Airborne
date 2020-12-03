@@ -1,9 +1,13 @@
 from scipy.stats import linregress
 
 def linear_regression(cases, air_qualities):
+    '''takes a list of cases and list of air_qualities as inputs. Returns the results of linear regression analysis performed
+    by scipy.stats'''
     return linregress(cases, air_qualities)
 
 def check_if_entry_exists(state, city, from_date, to_date):
+    ''' Takes state, city, from_date, to_date, as inputs for linear regression analysis. Tries to open results.txt and checks if
+    there's already results for the inputs. Returns a boolean to avoid entering duplicate data'''
     location = f"Location: {city}, {state}\n"
     start_date = f"Start Date: {from_date}\n"
     end_date = f"End Date: {to_date}\n"
@@ -16,6 +20,8 @@ def check_if_entry_exists(state, city, from_date, to_date):
     return location in lines and start_date in lines and end_date in lines
 
 def write_stats_to_file(data, state, city):
+    '''Takes data, state, and city where data is a dictionary of the cases, air qualities, and dates for the given state. First checks
+    if there is already an entry in results.txt for these parameters and if not, performs linear regression analysis and records results.'''
     from_date = data["Date"][0]
     to_date = data["Date"][-1]
     if check_if_entry_exists(state, city, from_date, to_date):
