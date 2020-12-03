@@ -2,6 +2,7 @@ import air_quality_api
 import covid_api
 import database
 import GUI
+import processing
 import visualizations
 
 def data_collection_driver(cur, conn):
@@ -34,13 +35,16 @@ def data_visualization_driver(cur):
     
     month_id = GUI.select_month_visualization_GUI(cur, location_id)
     API_data = database.get_API_data_for_location(cur, location_id, month_id)
-    dates = []
-    cases = []
-    air_qualities = []
+    data_dict = dict()
+    data_dict["Date"] = []
+    data_dict["COVID-19 Cases"] = []
+    data_dict["Air Quality (PM2.5)"] = []
     for entry in API_data:
-        dates.append(entry[0])
-        cases.append(entry[2])
-        air_qualities.append(entry[3])
+        date = str(entry[0])
+        date = f"{date[:4]}-{date[4:6]}-{date[6:]}"
+        data_dict["Date"].append(date)
+        data_dict["COVID-19 Cases"].append(entry[2])
+        data_dict["Air Quality (PM2.5)"].append(entry[3])
     
     from_month = cur.execute("SELECT month FROM Months WHERE id = ?",
                              (API_data[0][1],)).fetchone()[0]
@@ -49,8 +53,9 @@ def data_visualization_driver(cur):
     
     location = cur.execute("SELECT state, city FROM Locations WHERE id = ?",
                            (location_id,)).fetchone()
-    visualizations.air_quality_vs_cases(cases, air_qualities, location[0],
+    visualizations.air_quality_vs_cases(data_dict, location[0],
                                         location[1], from_month, to_month)
+    processing.write_stats_to_file(data_dict, location[0], location[1])
 
 def main():
     conn, cur = database.set_up_tables()
