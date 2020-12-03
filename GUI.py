@@ -170,16 +170,22 @@ def select_month_visualization_GUI(cur, location_id):
     normal_font = font.Font(family="Roboto", size=12)
     small_font = font.Font(family="Roboto Condensed", size=10)
 
-    tk.Label(root, text="Please select a state:", font=normal_font).pack(padx=15, pady=10)
+    tk.Label(root, text="Please select a month:", font=normal_font).pack(pady=10)
     month_selection = tk.StringVar()
     month_selection.set(months[0])
     ttk.Combobox(root, width=15, textvariable=month_selection,
                  values=months, font=small_font).pack()
     
+    use_all_data = tk.IntVar()
+    tk.Checkbutton(root, text="Use all data available for location",
+                   variable=use_all_data, font=small_font).pack(padx=15, pady=20)
     tk.Button(root, text="Continue", font=normal_font, command=root.destroy).pack(pady=20)
 
     root.mainloop()
 
+    if use_all_data.get():
+        return None
+    
     month = cur.execute("SELECT id FROM Months WHERE month = ?",
                         (month_selection.get(),)).fetchone()
     return month[0]

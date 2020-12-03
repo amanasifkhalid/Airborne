@@ -1,1 +1,11 @@
+AZ,Phoenix-Mesa-Scottsdale,Tempe
+CA,Los Angeles-Long Beach-Santa Ana,North Holywood
+DC,Washington-Arlington-Alexandria,McMillan Reservoir
+IL,Chicago-Naperville-Joliet,CHI_COM
+MA,Boston-Cambridge-Quincy,Haverhill
 MI,Detroit-Warren-Livonia,DET POLICE 4TH
+NV,Las Vegas-Paradise,Sunrise Acres
+NY,New York-Northern New Jersey-Long Island,Queens
+PA,Philadelphia-Camden-Wilmington,LUMS 2
+TX,Houston-Sugar Land-Baytown,Clinton C403
+WA,Seattle-Tacoma-Bellevue,Seattle-Beacon Hill
