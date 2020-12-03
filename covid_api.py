@@ -24,7 +24,7 @@ def add_to_COVID_database(data, date, location_id, cur, conn):
     conn.commit()
 
 def API_driver(location, month, cur, conn):
-        ''' Takes in location, month, database cursor and connector as inputs. Calls get daily cases for 25 days to get API data. Checks for errors in API response. If there are no errors,
+    ''' Takes in location, month, database cursor and connector as inputs. Calls get daily cases for 25 days to get API data. Checks for errors in API response. If there are no errors,
     calls add_to_COVID_database and returns a tuple with just True. If there are errors, returns a tuple with False and the error message.'''
     for i in range(1, 26):
         if i < 10:

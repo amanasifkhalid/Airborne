@@ -2,6 +2,10 @@ import pandas as pd
 import plotly.express as px
 
 def air_quality_vs_cases(data, state, city, from_month, to_month):
+    ''' Takes data, state, city, from_month, and to_month as inputs, where
+    data is a dictionary of the COVID-19 cases, the air qualities, and the dates.
+    Creates a Pandas DataFrame of the data, formats a title for the graph, and
+    then creates a scatterplot with a trend line using plotly.'''
     df = pd.DataFrame(data=data)
     title = f"{city} Daily Air Quality vs. New {state} COVID-19 Cases,\n{from_month}"
     if to_month != from_month:
@@ -12,5 +16,12 @@ def air_quality_vs_cases(data, state, city, from_month, to_month):
                          title=title, hover_name="Date", trendline="ols")
     scatter.show()
 
-def new_cases_line_graph(cases, dates, state, from_month, to_month=None):
+def new_cases_line_graph(data, state, from_month, to_month):
+    ''' Takes data, state, from_month, and to_month as inputs, where
+    data is a dictionary of the COVID-19 cases, the air qualities, and the dates.
+    Creates a Pandas DataFrame of data, and plots the DataFrame's COVID-19 cases
+    column and Dates column on a line graph using plotly. Formats the title with
+    state, from_month, and to_month; if from_month and to_month are equal, meaning
+    the data is from one month, only display one month in the title. Else, display
+    the month range in the title.'''
     pass
