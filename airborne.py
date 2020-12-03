@@ -45,13 +45,13 @@ def data_visualization_driver(cur):
     data_dict = dict()
     data_dict["Date"] = []
     data_dict["COVID-19 Cases"] = []
-    data_dict["Air Quality (PM2.5)"] = []
+    data_dict["Air Pollution (PM2.5)"] = []
     for entry in API_data:
         date = str(entry[0])
         date = f"{date[:4]}-{date[4:6]}-{date[6:]}"
         data_dict["Date"].append(date)
         data_dict["COVID-19 Cases"].append(entry[2])
-        data_dict["Air Quality (PM2.5)"].append(entry[3])
+        data_dict["Air Pollution (PM2.5)"].append(entry[3])
     
     from_month = cur.execute("SELECT month FROM Months WHERE id = ?",
                              (API_data[0][1],)).fetchone()[0]

@@ -12,7 +12,7 @@ def air_quality_vs_cases(data, state, city, from_month, to_month):
         title = title + f"-{to_month}"
     
     title = title + " 2020"
-    scatter = px.scatter(df, x="COVID-19 Cases", y="Air Quality (PM2.5)",
+    scatter = px.scatter(df, x="COVID-19 Cases", y="Air Pollution (PM2.5)",
                          title=title, hover_name="Date", trendline="ols")
     scatter.show()
 

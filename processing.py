@@ -29,7 +29,7 @@ def write_stats_to_file(data, state, city):
     
     with open("results.txt", "a") as results_file:
         slope, y_intercept, corr_coef, p_value, std_error = \
-            linear_regression(data["COVID-19 Cases"], data["Air Quality (PM2.5)"])
+            linear_regression(data["COVID-19 Cases"], data["Air Pollution (PM2.5)"])
         coef_of_det = corr_coef ** 2
 
         results_file.write("==========================\n")
@@ -38,7 +38,7 @@ def write_stats_to_file(data, state, city):
         results_file.write(f"Start Date: {from_date}\n")
         results_file.write(f"End Date: {to_date}\n")
         results_file.write(
-            f"Equation: Air Quality = {slope} * COVID-19 Cases + {y_intercept}\n"
+            f"Equation: Air Pollution = {slope} * COVID-19 Cases + {y_intercept}\n"
         )
         results_file.write(f"Pearson's Correlation Coefficient (R): {corr_coef}\n")
         results_file.write(f"Coefficient of Determination (R^2): {coef_of_det}\n")
