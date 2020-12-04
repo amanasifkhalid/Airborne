@@ -4,6 +4,10 @@ from tkinter import ttk
 import sys
 
 def welcome_GUI():
+    ''' Creates and shows the first GUI the user sees upon running Airborne.
+    Prompts the user to choose between collecting and analyzing data with radio
+    buttons, and returns the user's choice as an integer. If the user picks
+    "Analyze Data," 0 is returned. If the user picks "Collect Data," 1 is returned.'''
     root = tk.Tk()
     root.eval("tk::PlaceWindow . center")
     root.protocol("WM_DELETE_WINDOW", sys.exit)
@@ -28,6 +32,13 @@ def welcome_GUI():
     return choice.get()
 
 def selection_GUI(cur):
+    ''' Takes a cursor to airborne_database.db as input and runs the GUI for
+    selecting a state and month to collect API data for. The state and month
+    dropdown menus are populated by selecting all available states and months
+    from airborne_database.db. A check box is provided to clear airborne_database.db's
+    COVID_Cases and Air_Quality tables. Once the user chooses to continue,
+    the selected state and month, along with an integer determining whether to
+    clear the COVID_Cases and Air_Quality tables, are returned.'''
     root = tk.Tk()
     root.eval("tk::PlaceWindow . center")
     root.protocol("WM_DELETE_WINDOW", sys.exit)
@@ -77,6 +88,12 @@ def selection_GUI(cur):
     return location, month, clear_database.get()
 
 def display_error_message(status_code, COVID_API=False):
+    ''' Takes an error status code and an optional parameter specifying if the 
+    API that failed is the COVID-19 API. Runs the GUI for notifying the user of
+    any errors that occur while downloading, parsing, and saving API data to the
+    database. If the API returns an HTTP status code, it will be shown. Else, one
+    of Airborne's custom error messages will be shown. If the COVID-19 API fails,
+    COVID_API will be specified as True.'''
     root = tk.Tk()
     root.eval("tk::PlaceWindow . center")
     root.protocol("WM_DELETE_WINDOW", sys.exit)
@@ -97,6 +114,10 @@ def display_error_message(status_code, COVID_API=False):
     root.mainloop()
 
 def display_visualization_error_message():
+    ''' Runs the GUI for displaying an error message if the user chooses to
+    analyze data before collecting any; that is, if the user chooses "Analyze Data"
+    from the welcome GUI when airborne_database.db's COVID_Cases and Air_Quality
+    tables are empty, this error message GUI will run.'''
     root = tk.Tk()
     root.eval("tk::PlaceWindow . center")
     root.protocol("WM_DELETE_WINDOW", sys.exit)
@@ -110,6 +131,8 @@ def display_visualization_error_message():
     root.mainloop()
 
 def display_load_finished_message():
+    ''' Runs the GUI for notifying the user that the program has finished collecting
+    data from the APIs without running into any errors.'''
     root = tk.Tk()
     root.eval("tk::PlaceWindow . center")
     root.protocol("WM_DELETE_WINDOW", sys.exit)
@@ -121,6 +144,12 @@ def display_load_finished_message():
     root.mainloop()
 
 def select_state_visualization_GUI(cur):
+    ''' Takes a cursor pointing to airborne_database.db as input and prompts the
+    user to select a state to analyze and create visualizations for. The state
+    dropdown menu is populated by obtaining all location_ids with available data from
+    Air_Quality, and then selecting their corresponding states from Locations using
+    cur. If no data is available, an error message is displayed. When the user
+    chooses to continue, the location_id of the selected state is returned.'''
     cur.execute("SELECT location_id FROM Air_Quality")
     avaliable_locs = cur.fetchall()
     cur.execute("SELECT id, state FROM Locations")
@@ -155,6 +184,14 @@ def select_state_visualization_GUI(cur):
     return location[0]
 
 def select_month_visualization_GUI(cur, location_id):
+    ''' Takes a cursor pointing to airborne_database.db and the location_id of
+    the state/city the user wishes to create visualizations for. Based on the
+    selected location, the GUI prompts the user to select a time period of data
+    to analyze. The month dropdown menu is populated by reading the available
+    month_ids in the Air_Quality table using cur. If the corresponding checkbox
+    is checked, all available data for the location will be used, and the returned
+    month will be None. Another checkbox is provided to clear results.txt. A truthy
+    integer will also be returned, its value dependent on if this box is checked.'''
     cur.execute("SELECT month_id FROM Air_Quality WHERE location_id = ?", (location_id,))
     available_months = cur.fetchall()
     cur.execute("SELECT id, month FROM Months")
@@ -184,6 +221,9 @@ def select_month_visualization_GUI(cur, location_id):
                    variable=clear_results, font=small_font).pack()
     tk.Button(root, text="Continue", font=normal_font, command=root.destroy).pack(pady=20)
 
+    warning_msg = "Note: This will open three new tabs in your browser!"
+    tk.Label(root, text=warning_msg, font=small_font).pack(padx=15, pady=10)
+
     root.mainloop()
 
     if use_all_data.get():
@@ -194,6 +234,10 @@ def select_month_visualization_GUI(cur, location_id):
     return month[0], clear_results.get()
 
 def display_results_finished_message():
+    ''' Displays a GUI notifying the user that the linear regression analysis
+    performed on the data for the selected location and time frame has finished,
+    and its results have been recorded in results.txt. This message pops up after
+    all visualizations have been displayed.'''
     root = tk.Tk()
     root.eval("tk::PlaceWindow . center")
     root.protocol("WM_DELETE_WINDOW", sys.exit)
