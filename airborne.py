@@ -65,6 +65,8 @@ def data_visualization_driver(cur):
                            (location_id,)).fetchone()
     visualizations.air_quality_vs_cases(data_dict, location[0],
                                         location[1], from_month, to_month)
+    visualizations.new_cases_line_graph(data_dict, location[0], from_month, to_month)
+    visualizations.air_quality_line_graph(data_dict, location[1], from_month, to_month)
     processing.write_stats_to_file(data_dict, location[0], location[1])
     GUI.display_results_finished_message()
 
