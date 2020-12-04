@@ -174,18 +174,35 @@ def select_month_visualization_GUI(cur, location_id):
     month_selection = tk.StringVar()
     month_selection.set(months[0])
     ttk.Combobox(root, width=15, textvariable=month_selection,
-                 values=months, font=small_font).pack()
+                 values=months, font=small_font).pack(pady=10)
     
     use_all_data = tk.IntVar()
+    clear_results = tk.IntVar()
     tk.Checkbutton(root, text="Use all data available for location",
-                   variable=use_all_data, font=small_font).pack(padx=15, pady=20)
+                   variable=use_all_data, font=small_font).pack(padx=15)
+    tk.Checkbutton(root, text="Clear results.txt",
+                   variable=clear_results, font=small_font).pack()
     tk.Button(root, text="Continue", font=normal_font, command=root.destroy).pack(pady=20)
 
     root.mainloop()
 
     if use_all_data.get():
-        return None
+        return None, clear_results.get()
     
     month = cur.execute("SELECT id FROM Months WHERE month = ?",
                         (month_selection.get(),)).fetchone()
-    return month[0]
+    return month[0], clear_results.get()
+
+def display_results_finished_message():
+    root = tk.Tk()
+    root.eval("tk::PlaceWindow . center")
+    root.protocol("WM_DELETE_WINDOW", sys.exit)
+    root.title("Airborne")
+    normal_font = font.Font(family="Roboto", size=12)
+    small_font = font.Font(family="Roboto Condensed", size=10)
+
+    tk.Label(root, text="Linear regression analysis finished!", font=normal_font).pack(padx=15, pady=10)
+    tk.Label(root, text="Open results.txt to view the results.", font=normal_font).pack(padx=15, pady=10)
+    tk.Button(root, text="Continue", font=normal_font, command=root.destroy).pack(pady=20)
+
+    root.mainloop()

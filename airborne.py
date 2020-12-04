@@ -40,7 +40,10 @@ def data_visualization_driver(cur):
     if not location_id:
         return
     
-    month_id = GUI.select_month_visualization_GUI(cur, location_id)
+    month_id, clear_results = GUI.select_month_visualization_GUI(cur, location_id)
+    if clear_results:
+        processing.clear_results_file()
+    
     API_data = database.get_API_data_for_location(cur, location_id, month_id)
     data_dict = dict()
     data_dict["Date"] = []
@@ -63,6 +66,7 @@ def data_visualization_driver(cur):
     visualizations.air_quality_vs_cases(data_dict, location[0],
                                         location[1], from_month, to_month)
     processing.write_stats_to_file(data_dict, location[0], location[1])
+    GUI.display_results_finished_message()
 
 def main():
     '''Driver method for Airborne. First, connects to airborne_database and sets up the tables
