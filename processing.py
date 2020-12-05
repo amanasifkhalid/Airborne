@@ -47,3 +47,7 @@ def write_stats_to_file(data, state, city):
 
         results_file.write("==========================\n")
         results_file.write("\n")
+
+def clear_results_file():
+    ''' If the user chooses to do so, clears the contents of results.txt.'''
+    open("results.txt", "w").close()
