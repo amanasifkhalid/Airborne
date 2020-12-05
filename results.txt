@@ -58,3 +58,15 @@ P-Value: 0.02618360700401768
 Standard Error: 0.0008780603795913567
 ==========================
 
+==========================
+Linear Regression Analysis
+Location: Los Angeles-Long Beach-Santa Ana, CA
+Start Date: 2020-04-01
+End Date: 2020-04-25
+Equation: Air Pollution = 0.0021021150379837124 * COVID-19 Cases + 6.840703211866327
+Pearson's Correlation Coefficient (R): 0.29554725532925247
+Coefficient of Determination (R^2): 0.08734818013265436
+P-Value: 0.1514710520382643
+Standard Error: 0.0014168314633290836
+==========================
+

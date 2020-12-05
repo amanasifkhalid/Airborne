@@ -6,11 +6,13 @@ import processing
 import visualizations
 
 def data_collection_driver(cur, conn):
-    ''' Driver method for collecting data from COVID19 and Air Quality APIs. Takes the database cursor and connector as input. First runs the GUI for chosing the location
-    and month. Formats month correctly so if smaller than 10, month would lead with a 0.  Calls methods for getting API data for 
-    COIVD cases and Air Quality. If there is an error, than the GUI will display an error message. Then adds the data to airborne_database. 
-    Lastly, GUI displays finished message.
-    '''
+    ''' Driver method for collecting data from COVID-19 and Air Quality APIs. 
+    Takes the database cursor and connector as input. First runs the GUI for 
+    chosing the location and month. Formats month correctly so if month number 
+    value is smaller than 10, month would lead with a 0. Calls methods for getting 
+    API data for COVID-19 cases and Air Quality. If there is an error, than the GUI 
+    will display an error message. Then adds the data to airborne_database. Lastly, 
+    GUI displays finished message.'''
     location, month, clear_API_data = GUI.selection_GUI(cur)
     if clear_API_data:
         database.clear_API_data_tables(cur, conn)
@@ -34,8 +36,11 @@ def data_collection_driver(cur, conn):
     GUI.display_load_finished_message()
 
 def data_visualization_driver(cur):
-    ''' Driver method for creating data visualizations. Takes in database cursor as input. First runs GUI for selecting the state.  IF there is no location_id available, the method returns
-    Selects timeframe for the visualization. Gets data for selected location and month from airborne_database. Creates visualizations for the data and outputs linear regression results to a file'''
+    ''' Driver method for creating data visualizations. Takes in database cursor 
+    as input. First runs GUI for selecting the state.  If there is no location_id 
+    available, the method returns. Selects timeframe for the visualization. Gets 
+    data for selected location and month from airborne_database. Creates visualizations 
+    for the data and outputs linear regression results to a file'''
     location_id = GUI.select_state_visualization_GUI(cur)
     if not location_id:
         return
@@ -71,8 +76,9 @@ def data_visualization_driver(cur):
     GUI.display_results_finished_message()
 
 def main():
-    '''Driver method for Airborne. First, connects to airborne_database and sets up the tables
-    Starts welcome GUI, either collects data or creates data depending on users choice'''
+    '''Driver method for Airborne. First, connects to airborne_database and sets 
+    up the tables. Starts welcome GUI, either collects data or creates data analysis
+    depending on users choice'''
     conn, cur = database.set_up_tables()
 
     while True:
