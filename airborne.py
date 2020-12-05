@@ -6,9 +6,9 @@ import processing
 import visualizations
 
 def data_collection_driver(cur, conn):
-    ''' Driver method for collecting data from covid19 and aq apis. Takes the database cursor and connector as input. First runs the GUI for chosing the location
-    and month. Formats month correctly so if smaller than 10, leads with a 0.  Calls methods for getting API data for 
-    covid cases and air quality. If there is an error, than the GUI will display an error message. Then adds the data to airborne_database. 
+    ''' Driver method for collecting data from COVID19 and Air Quality APIs. Takes the database cursor and connector as input. First runs the GUI for chosing the location
+    and month. Formats month correctly so if smaller than 10, month would lead with a 0.  Calls methods for getting API data for 
+    COIVD cases and Air Quality. If there is an error, than the GUI will display an error message. Then adds the data to airborne_database. 
     Lastly, GUI displays finished message.
     '''
     location, month, clear_API_data = GUI.selection_GUI(cur)
