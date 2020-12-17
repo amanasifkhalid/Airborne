@@ -1,6 +1,9 @@
-
 # Airborne
-![Airborne Screenshot](airborne_screenshot.png?raw=true "Airborne Interface")
+
+<p align="center">
+	<img src="airborne_screenshot.png" alt="Airborne Visualization"/>
+</p>
+
 Airborne is a data analysis tool for studying potential relationships between the COVID-
 19 pandemic and air quality in the US. Using case data from [The COVID Tracking Project](https://covidtracking.com/data/api) and particulate matter (PM2.5) readings from [OpenAQ](https://docs.openaq.org/), Airborne visualizes and evaluates associations between a US state's new daily cases and air quality in its most polluted city.
 
