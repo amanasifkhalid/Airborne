@@ -6,7 +6,12 @@ def get_monthly_cases(city, location, month):
     '''Takes in city, location, month as input. Puts arguments into url. Try to 
     get request from url. If successful returns api response. If not successful 
     returns None'''
-    openaq_url = f"{BASE_URL}city={city}&location={location}&date_from=2020-{month}-01&date_to=2020-{month}-25"
+    openaq_url = f"{BASE_URL}city={city}&location={location}&date_from=2020-{month}-01&date_to=2020-{month}-3"
+    if month in {"03", "05"}:
+        openaq_url += "1"
+    else:
+        openaq_url += "0"
+    
     try:
         response_api = requests.get(openaq_url)
     except:

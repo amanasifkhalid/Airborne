@@ -30,7 +30,7 @@ def API_driver(location, month, cur, conn):
     get daily cases for 25 days to get API data. Checks for errors in API response. 
     If there are no errors, calls add_to_COVID_database and returns a tuple with 
     just True. If there are errors, returns a tuple with False and the error message.''' 
-    for i in range(1, 26):
+    for i in range(1, 32):
         if i < 10:
             date = f"2020{month}0{i}"
         else:
@@ -44,7 +44,7 @@ def API_driver(location, month, cur, conn):
             return (False, "No status code received")
         
         if not daily_cases_request:
-            if month == "03":
+            if month == "03" or i == 31:
                 continue
             
             return (False, daily_cases_request.status_code)
